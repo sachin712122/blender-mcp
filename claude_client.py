@@ -23,7 +23,7 @@ import logging
 import os
 import socket
 import tempfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict
 from urllib.parse import urlparse
@@ -59,7 +59,7 @@ DEFAULT_MODEL = "claude-3-5-sonnet-20241022"
 class BlenderConnection:
     host: str
     port: int
-    sock: socket.socket = None
+    sock: socket.socket = field(default=None, repr=False)
 
     def connect(self) -> bool:
         if self.sock:
@@ -574,7 +574,7 @@ def dispatch_tool(tool_name: str, tool_input: dict) -> str:
         enabled = result.get("enabled", False)
         message = result.get("message", "")
         if enabled:
-            message += " PolyHaven is good at Textures, and has a wider variety of textures than Sketchfab."
+            message += " PolyHaven is good at textures, and has a wider variety of textures than Sketchfab."
         return message
 
     elif tool_name == "get_polyhaven_categories":
@@ -743,7 +743,7 @@ def dispatch_tool(tool_name: str, tool_input: dict) -> str:
         enabled = result.get("enabled", False)
         message = result.get("message", "")
         if enabled:
-            message += " Sketchfab is good at Realistic models, and has a wider variety of models than PolyHaven."
+            message += " Sketchfab is good at realistic models, and has a wider variety of models than PolyHaven."
         return message
 
     elif tool_name == "search_sketchfab_models":
